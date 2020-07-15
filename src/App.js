@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import {
   SafeAreaView,
@@ -10,8 +10,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import api from './services/api'
+import axios from 'axios'
+
 export default function App() {
+
+  const [repositories, setRepositories] = useState([])
+
+  useEffect(() => {
+    api.get('repositories').then(response => {
+      console.log(response.data)
+      setRepositories(response.data) 
+    })
+  },[])
+
   async function handleLikeRepository(id) {
+
     // Implement "Like Repository" functionality
   }
 
@@ -19,10 +33,20 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <SafeAreaView style={styles.container}>
+
+      <FlatList
+        data={repositories}
+        key={repositories.id} //add the res of flatlist
+      />
+
         <View style={styles.repositoryContainer}>
-          <Text style={styles.repository}>Repository 1</Text>
+
+            <Text style={styles.repository}>
+              TItle
+            </Text>
 
           <View style={styles.techsContainer}>
+
             <Text style={styles.tech}>
               ReactJS
             </Text>
@@ -36,8 +60,7 @@ export default function App() {
               style={styles.likeText}
               // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
               testID={`repository-likes-1`}
-            >
-              3 curtidas
+            >repository.likes
             </Text>
           </View>
 
@@ -49,7 +72,9 @@ export default function App() {
           >
             <Text style={styles.buttonText}>Curtir</Text>
           </TouchableOpacity>
+
         </View>
+
       </SafeAreaView>
     </>
   );
