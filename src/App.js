@@ -16,9 +16,6 @@ import axios from 'axios'
 export default function App() {
 
   const [repositories, setRepositories] = useState([])
-  const [like, setLike] = useState([])
-
-
 
   useEffect(() => {
     api.get('repositories').then(response => {
